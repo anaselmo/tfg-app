@@ -5,16 +5,22 @@ import { StyleSheet } from 'react-native'
 const borderWidth = 0
 
 const styles = StyleSheet.create({
-  pageWrapper: {
-    paddingTop: Constants.statusBarHeight,
+  screenWrapper: {
     flex: 1,
-    alignItems: 'center',
-    // justifyContent: 'center',
-    // alignContent: 'stretch',
-    backgroundColor: 'black'
+    paddingTop: 0,
+    backgroundColor: '#354436',
+    borderColor: 'red',
+    borderWidth: borderWidth
   },
-  welcomeTextWrapper: {
-    flex: 3,
+  backgroundWrapper: {
+    top: Constants.statusBarHeight,
+    left: 0,
+    right: 0,
+    bottom: 0,
+    position: 'absolute'
+  },
+  headerWrapper: {
+    flex: 2,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'center',
@@ -22,40 +28,9 @@ const styles = StyleSheet.create({
     borderStyle: 'solid',
     borderWidth: borderWidth
   },
-  mapWrapper: {
-    flex: 7,
-    alignSelf: 'stretch',
-    justifyContent: 'center',
-    borderColor: 'yellow',
-    borderStyle: 'solid',
-    borderWidth: borderWidth
-  },
-  mapText: {
-    color: 'white',
-    borderColor: 'yellow',
-    borderStyle: 'dotted',
-    borderWidth: borderWidth
-  },
-  mapSvg: {
-    width: '2%',
-    height: '2%',
-    borderColor: 'yellow',
-    borderStyle: 'dotted',
-    borderWidth: borderWidth
-  },
-  welcomeText: {
-    color: 'white',
-    fontWeight: 'bold',
-    fontSize: 25,
-    textAlign: 'center',
-    fontFamily: 'Inter-Regular',
-    borderColor: 'yellow',
-    borderStyle: 'dotted',
-    borderWidth: borderWidth
-  },
   appNameText: {
     color: 'white',
-    fontSize: 40,
+    fontSize: 50,
     textAlign: 'center',
     fontFamily: 'Inter-Bold',
     borderColor: 'yellow',
@@ -66,33 +41,31 @@ const styles = StyleSheet.create({
     flex: 3,
     width: '100%',
     alignItems: 'stretch',
-    justifyContent: 'space-evenly',
+    justifyContent: 'flex-end',
     borderColor: 'red',
     borderStyle: 'solid',
-    borderWidth: borderWidth
+    borderWidth: borderWidth,
+    paddingBottom: '10%'
   },
   buttonContainer: {
     alignSelf: 'center',
     width: '85%',
+    paddingVertical: 7,
     borderColor: 'red',
     borderStyle: 'dotted',
     borderWidth: borderWidth
   },
-  loginButton: {
-    backgroundColor: '#D9D9D9',
-    padding: 8,
-    borderRadius: 17
-  },
-  registerButton: {
-    backgroundColor: '#4DAF57',
-    padding: 7,
-    borderRadius: 17
+  button: {
+    backgroundColor: 'transparent',
+    padding: 5,
+    borderRadius: 15
   },
   buttonText: {
     color: 'black',
     fontSize: 16,
     textAlign: 'center',
-    fontFamily: 'Inter-Regular'
+    fontFamily: 'Inter-Bold',
+    backgroundColor: 'transparent'
   }
 })
 

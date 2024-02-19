@@ -1,69 +1,63 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { StatusBar } from 'expo-status-bar'
-import { Alert, Text, TouchableOpacity, View } from 'react-native'
-import * as SplashScreen from 'expo-splash-screen'
-import { useFonts } from 'expo-font'
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import WelcomeBackground from '../../assets/welcome2'
+import { Button, ImageBackground, Text, TouchableOpacity, View } from 'react-native'
+import WelcomeBackground from '../../assets/new-welcome-background.svg'
 import styles from '../styles/welcome-screen.style'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import WelcomeHeader from '../components/welcome-header.component'
+import { LinearGradient } from 'expo-linear-gradient'
 
-export default function WelcomeScreen (): any {
-  const [fontsLoaded] = useFonts({
-    'Inter-Bold': require('../../assets/fonts/Inter-Bold.ttf'),
-    'Inter-Regular': require('../../assets/fonts/Inter-Regular.ttf')
-  })
+export default function WelcomeScreen ({ navigation }: { navigation: any }): JSX.Element {
+  const goToRegister = (): void => {
+    navigation.navigate('RegisterScreen')
+  }
 
-  useEffect(() => {
-    async function prepare (): Promise<void> {
-      await SplashScreen.preventAutoHideAsync()
-    }
-    void prepare()
-  }, [])
-
-  console.log(`fontsLoaded: ${fontsLoaded}`)
-
-  if (!fontsLoaded) {
-    return undefined
-  } else {
-    void SplashScreen.hideAsync()
+  const goToLogin = (): void => {
+    navigation.navigate('LoginScreen')
   }
 
   return (
-    <View style={styles.pageWrapper}>
-      <View style={styles.welcomeTextWrapper}>
-        <Text style={styles.welcomeText}>Welcome to</Text>
-        <Text style={styles.appNameText}>🔥 APP NAME 😎</Text>
-        <StatusBar translucent />
-      </View>
+    <View style={styles.screenWrapper}>
+      {/* <StatusBar translucent /> */}
 
-      <View style={styles.mapWrapper}>
-        {/* TODO: Hacer el SVG más ancho, más mapa :) */}
+      <View style={styles.backgroundWrapper}>
         <WelcomeBackground
-            preserveAspectRatio="xMinYMin slice"
-            style={styles.mapSvg}
+          width="100%"
+          height="100%"
+          preserveAspectRatio="xMinYMin slice"
         ></WelcomeBackground>
       </View>
 
+      <WelcomeHeader/>
+
       <View style={styles.authWrapper}>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.loginButton} onPress={handleLogin}>
-            <Text style={styles.buttonText}>Login</Text>
-          </TouchableOpacity>
+          
+            <LinearGradient
+              colors={['#C7FFB4', '#B5FFC9']}
+              style={styles.button}
+              start={{ x: 0, y: 0.5 }}
+              end={{ x: 1, y: 0.5 }}
+            >
+              <TouchableOpacity style={styles.button} onPress={goToLogin}>
+              <Text style={styles.buttonText}>Login</Text>
+              </TouchableOpacity>
+            </LinearGradient>
+          
         </View>
         <View style={styles.buttonContainer}>
-          <TouchableOpacity style={styles.registerButton} onPress={handleRegister}>
-            <Text style={styles.buttonText}>Register</Text>
-          </TouchableOpacity>
+          <LinearGradient
+                colors={['#70FF3E', '#3AFF71']}
+                style={styles.button}
+                start={{ x: 0, y: 0.5 }}
+                end={{ x: 1, y: 0.5 }}
+          >
+            <TouchableOpacity style={styles.button} onPress={goToRegister}>
+              <Text style={styles.buttonText}>Register</Text>
+            </TouchableOpacity>
+          </LinearGradient>
         </View>
       </View>
     </View>
   )
-}
-
-const handleRegister = (): void => {
-  Alert.alert('Register', 'Register button!')
-}
-
-const handleLogin = (): void => {
-  Alert.alert('Login', 'Login button!')
 }
