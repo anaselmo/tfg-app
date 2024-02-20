@@ -6,7 +6,7 @@ import styles from '../styles/welcome-screen.style'
 export default function LoginScreen ({ navigation }: { navigation: any }): any {
   return (
     <SafeAreaView style={styles.screenWrapper}>
-      <View style={styles.headerWrapper}>
+      <View style={styles.welcomeWrapper}>
       <Text style={styles.appNameText}>🔥 REGISTER SCREEN 😎</Text>
       </View>
 

@@ -4,7 +4,7 @@ import WelcomeScreen from '../screens/welcome-screen'
 import LoginScreen from '../screens/login-screen'
 import RegisterScreen from '../screens/register-screen'
 const screens = {
-  Welcome: {
+  WelcomeScreen: {
     screen: WelcomeScreen,
     navigationOptions: {
       headerShown: false // Hide screen stack navigation header
