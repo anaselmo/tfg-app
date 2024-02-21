@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import { View, type StyleProp, type ViewStyle } from 'react-native'
+import { type StyleProp, type ViewStyle } from 'react-native'
 import { LinearGradient, type LinearGradientProps } from 'expo-linear-gradient'
 
 interface BackgroundProps {
@@ -20,11 +20,9 @@ const Background: React.FC<BackgroundProps> = ({
   children
 }: BackgroundProps) => {
   return (
-    <View style={style}>
-    <LinearGradient {...gradient} style={{ flex: 1 }}>
+    <LinearGradient {...gradient} style={style}>
         {children}
     </LinearGradient>
-    </View>
   )
 }
 

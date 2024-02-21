@@ -27,18 +27,16 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   textStyle = defaultValues.textStyle!
 }: CustomButtonProps) => {
   return (
-    <View>
+    <TouchableOpacity onPress={onPress}>
       <LinearGradient
         colors={gradient.colors}
         start={gradient.start}
         end={gradient.end}
         style={buttonStyle}
       >
-        <TouchableOpacity onPress={onPress}>
         <Text style={textStyle}>{text}</Text>
-        </TouchableOpacity>
       </LinearGradient>
-    </View>
+    </TouchableOpacity>
   )
 }
 
