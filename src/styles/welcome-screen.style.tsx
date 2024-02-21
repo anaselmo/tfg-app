@@ -1,5 +1,3 @@
-/* eslint-disable object-shorthand */
-import Constants from 'expo-constants'
 import { StyleSheet } from 'react-native'
 
 const borderWidth = 0
@@ -7,14 +5,12 @@ const borderWidth = 0
 const styles = StyleSheet.create({
   screenWrapper: {
     flex: 1,
-    // paddingTop: Constants.statusBarHeight,
     backgroundColor: '#354436',
     // debug
     borderColor: 'red',
-    borderWidth: borderWidth
+    borderWidth
   },
   backgroundWrapper: {
-    // top: Constants.statusBarHeight,
     top: 0,
     left: 0,
     right: 0,
@@ -29,7 +25,7 @@ const styles = StyleSheet.create({
     // debug
     borderColor: 'yellow',
     borderStyle: 'solid',
-    borderWidth: borderWidth
+    borderWidth
   },
   appNameText: {
     color: 'white',
@@ -39,7 +35,7 @@ const styles = StyleSheet.create({
     // debug
     borderColor: 'yellow',
     borderStyle: 'dotted',
-    borderWidth: borderWidth
+    borderWidth
   },
   authWrapper: {
     flex: 3,
@@ -51,7 +47,7 @@ const styles = StyleSheet.create({
     // debug
     borderColor: 'red',
     borderStyle: 'solid',
-    borderWidth: borderWidth
+    borderWidth
   },
   button: {
     paddingVertical: 9,
