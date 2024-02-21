@@ -1,8 +1,7 @@
 import { createStackNavigator } from 'react-navigation-stack'
 import { createAppContainer } from 'react-navigation'
 import WelcomeScreen from '../screens/welcome-screen'
-import LoginScreen from '../screens/login-screen'
-import RegisterScreen from '../screens/register-screen'
+import AuthScreen from '../screens/auth-screen'
 const screens = {
   WelcomeScreen: {
     screen: WelcomeScreen,
@@ -10,14 +9,8 @@ const screens = {
       headerShown: false // Hide screen stack navigation header
     }
   },
-  LoginScreen: {
-    screen: LoginScreen,
-    navigationOptions: {
-      headerShown: false // Hide screen stack navigation header
-    }
-  },
-  RegisterScreen: {
-    screen: RegisterScreen,
+  AuthScreen: {
+    screen: AuthScreen,
     navigationOptions: {
       headerShown: false // Hide screen stack navigation header
     }

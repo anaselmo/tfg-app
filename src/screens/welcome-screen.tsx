@@ -4,15 +4,28 @@ import { StatusBar } from 'expo-status-bar'
 import { Text, View } from 'react-native'
 import WelcomeBackground from '../../assets/new-welcome-background.svg'
 import styles from '../styles/welcome-screen.style'
+import * as authButton from '../styles/shared/auth-button.style'
 import CustomButton from '../components/custom-button.component'
+import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types'
 
-export default function WelcomeScreen ({ navigation }: { navigation: any }): JSX.Element {
+interface WelcomeStackParamList {
+  Welcome: undefined
+  AuthScreen: undefined
+};
+
+interface WelcomeScreenProps {
+  navigation: WelcomeScreenNavigationProp
+}
+
+export type WelcomeScreenNavigationProp = StackNavigationProp<WelcomeStackParamList, 'Welcome'>
+
+export default function WelcomeScreen ({ navigation }: WelcomeScreenProps): JSX.Element {
   const goToRegister = (): void => {
-    navigation.navigate('RegisterScreen')
+    navigation.navigate('AuthScreen', { authMethod: 'register' })
   }
 
   const goToLogin = (): void => {
-    navigation.navigate('LoginScreen')
+    navigation.navigate('AuthScreen', { authMethod: 'login' })
   }
 
   return (
@@ -34,27 +47,20 @@ export default function WelcomeScreen ({ navigation }: { navigation: any }): JSX
       <View style={styles.authWrapper}>
         <CustomButton
           text='Login'
-          textStyle={styles.buttonText}
           onPress={goToLogin}
-          gradient={{
-            colors: ['#C7FFB4', '#B5FFC9'],
-            start: { x: 0, y: 0.5 },
-            end: { x: 1, y: 0.5 }
-          }}
-          buttonStyle={styles.button}
+          gradient={authButton.loginGradient}
+          textStyle={authButton.styles.buttonText}
+          buttonStyle={authButton.styles.button}
         />
         <CustomButton
           text='Register'
-          textStyle={styles.buttonText}
           onPress={goToRegister}
-          gradient={{
-            colors: ['#70FF3E', '#3AFF71'],
-            start: { x: 0, y: 0.5 },
-            end: { x: 1, y: 0.5 }
-          }}
-          buttonStyle={styles.button}
+          gradient={authButton.registerGradient}
+          textStyle={authButton.styles.buttonText}
+          buttonStyle={authButton.styles.button}
         />
       </View>
+
     </View>
   )
 }
