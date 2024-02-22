@@ -19,7 +19,6 @@ export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Elemen
 
   const toggleAuthMethod = (): void => {
     setAuthMethod(!isRegisterScreen)
-    // console.log('Auth Method:', navigation.getParam('authMethod'))
   }
 
   const togglePasswordVisibility = (): void => {
@@ -94,6 +93,19 @@ export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Elemen
               </Text>
             </View>
             <View style={authScreen.styles.authWrapper}>
+              {isRegisterScreen
+                ? <TextInput
+                    style={authScreen.styles.textInput}
+                    theme={{ roundness: 15, colors: { primary: 'transparent' } }}
+                    label='User name'
+                    keyboardType="email-address"
+                    activeUnderlineColor='#356310'
+                    mode="flat"
+                    maxLength={320}
+                    underlineColor="transparent"
+                  />
+                : null
+              }
               <TextInput
                 style={authScreen.styles.textInput}
                 theme={{ roundness: 15, colors: { primary: 'transparent' } }}
@@ -110,15 +122,30 @@ export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Elemen
                 label='Password'
                 mode="flat"
                 secureTextEntry={secureTextEntry}
-                activeOutlineColor='#F0F0F0'
+                activeUnderlineColor='#356310'
+                underlineColor="transparent"
                 right={<TextInput.Icon icon={secureTextEntry ? 'eye' : 'eye-off'} onPress={togglePasswordVisibility} />}
                 maxLength={64}
               />
+              {isRegisterScreen
+                ? <TextInput
+                    style={authScreen.styles.textInput}
+                    theme={{ roundness: 15, colors: { primary: 'transparent' } }}
+                    label='Repeat Password'
+                    mode="flat"
+                    secureTextEntry={secureTextEntry}
+                    activeUnderlineColor='#356310'
+                    underlineColor="transparent"
+                    right={<TextInput.Icon icon={secureTextEntry ? 'eye' : 'eye-off'} onPress={togglePasswordVisibility} />}
+                    maxLength={64}
+                  />
+                : null
+              }
             </View>
-            <View style={authScreen.styles.registerButtonWrapper}>
+            <View style={authScreen.styles.authButtonWrapper}>
             <CustomButton
               text={(isRegisterScreen) ? authButtonText.registerMode : authButtonText.loginMode}
-              textStyle={authScreen.styles.registerButtonText}
+              textStyle={authButton.styles.buttonText}
               onPress={handleAuth}
               gradient={(isRegisterScreen) ? authButton.registerGradient : authButton.loginGradient}
               buttonStyle={authButton.styles.button}
