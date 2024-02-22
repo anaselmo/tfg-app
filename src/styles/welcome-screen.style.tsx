@@ -48,18 +48,6 @@ const styles = StyleSheet.create({
     borderColor: 'red',
     borderStyle: 'solid',
     borderWidth
-  },
-  button: {
-    paddingVertical: 9,
-    marginVertical: 7,
-    borderRadius: 15
-  },
-  buttonText: {
-    color: 'black',
-    fontSize: 16,
-    textAlign: 'center',
-    fontFamily: 'Inter-Bold',
-    backgroundColor: 'transparent'
   }
 })
 
