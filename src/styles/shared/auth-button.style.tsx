@@ -2,9 +2,10 @@ import { StyleSheet } from 'react-native'
 
 export const styles = StyleSheet.create({
   button: {
-    paddingVertical: 9,
     marginVertical: 7,
-    borderRadius: 15
+    borderRadius: 15,
+    justifyContent: 'center',
+    height: 45
   },
   buttonText: {
     color: 'black',

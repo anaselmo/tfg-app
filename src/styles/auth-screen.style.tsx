@@ -1,8 +1,9 @@
 /* eslint-disable object-shorthand */
 import Constants from 'expo-constants'
 import { StyleSheet } from 'react-native'
+import * as authButton from './shared/auth-button.style'
 
-export const borderWidth = 0
+export const borderWidth = 1
 
 export const styles = StyleSheet.create({
   screenWrapper: {
@@ -13,7 +14,6 @@ export const styles = StyleSheet.create({
     borderWidth: borderWidth
   },
   header: {
-    flex: 1,
     alignSelf: 'center',
     flexDirection: 'row',
     // debug
@@ -81,18 +81,17 @@ export const styles = StyleSheet.create({
     borderRadius: 10
   },
   center: {
+    width: '80%',
+    paddingTop: 30,
+    left: 30,
     flex: 3,
-    alignItems: 'flex-start',
     // debug
     borderColor: 'yellow',
     borderWidth: borderWidth
   },
   centerText: {
-    marginTop: 30,
-    marginLeft: 30,
     color: 'white',
     fontSize: 30,
-    textAlign: 'left',
     fontFamily: 'Inter-Bold',
     // debug
     borderColor: 'yellow',
@@ -100,7 +99,7 @@ export const styles = StyleSheet.create({
     borderWidth: borderWidth
   },
   footer: {
-    flex: 5,
+    flex: 3,
     alignItems: 'stretch',
     // debug
     borderColor: 'yellow',
@@ -123,28 +122,32 @@ export const styles = StyleSheet.create({
     backgroundColor: 'rgba(255, 255, 255, 0.15)',
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
+    alignItems: 'center',
     bottom: -10,
     // debug
     borderColor: 'darkblue',
     borderWidth: borderWidth
   },
   cardTextWrapper: {
-    flex: 1,
+    marginVertical: 20,
+    width: '90%',
     justifyContent: 'center',
     borderWidth: borderWidth,
     borderColor: 'red'
   },
   authWrapper: {
     flex: 1,
-    justifyContent: 'center',
+    minHeight: 100,
+    width: '80%',
+    justifyContent: 'flex-start',
     borderWidth: borderWidth,
     borderColor: 'red'
   },
-  registerButtonWrapper: {
-    flex: 1,
+  authButtonWrapper: {
+    marginBottom: 30,
     width: '80%',
-    alignSelf: 'center',
     justifyContent: 'center',
+    alignContent: 'center',
     // debug
     borderWidth: borderWidth,
     borderColor: 'red'
@@ -169,32 +172,16 @@ export const styles = StyleSheet.create({
     borderStyle: 'dotted',
     borderWidth: borderWidth
   },
-  registerButtonText: {
-    textAlign: 'center',
-    color: 'black',
-    fontSize: 16,
-    fontFamily: 'Inter-Bold',
-    backgroundColor: 'transparent'
-  },
-  registerButton: {
-    alignSelf: 'center',
-    width: '80%',
-    paddingVertical: 9,
-    marginVertical: 7,
-    borderRadius: 15,
-    borderColor: 'yellow',
-    borderWidth: borderWidth
-  },
   textInput: {
-    alignSelf: 'center',
-    width: '80%',
     backgroundColor: '#F0F0F0',
     borderRadius: 15,
     fontSize: 15,
     fontFamily: 'Inter-Regular',
     color: '#696969',
+    justifyContent: 'center',
     marginTop: 10,
-    marginBottom: 15
+    marginBottom: 15,
+    height: authButton.styles.button.height
   }
 })
 
