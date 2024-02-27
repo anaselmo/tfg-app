@@ -2,11 +2,9 @@ import React from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { StatusBar } from 'expo-status-bar'
 import { Text, View } from 'react-native'
-import WelcomeBackground from '@assets/new-welcome-background.svg'
-import styles from '@styles/welcome-screen.style'
-import * as authButton from '@styles/shared/auth-button.style'
-import CustomButton from '@components/custom-button.component'
+import * as homeStackStyles from '@styles/home-stack-screen.style'
 import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types'
+import Background from '@components/background.component'
 
 interface HomeStackParamList {
   ExploreScreen: undefined
@@ -22,47 +20,14 @@ interface ExploreScreenProps {
 export type WelcomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'ExploreScreen'>
 
 export default function ExploreScreen ({ navigation }: ExploreScreenProps): JSX.Element {
-  const goToRegister = (): void => {
-    navigation.navigate('AuthScreen', { authMethod: 'register' })
-  }
-
-  const goToLogin = (): void => {
-    navigation.navigate('AuthScreen', { authMethod: 'login' })
-  }
-
   return (
-    <View style={styles.screenWrapper}>
+    <Background
+      gradient={homeStackStyles.backgroundGradient}
+    >
       <StatusBar style='light' />
-
-      <View style={styles.backgroundWrapper}>
-        <WelcomeBackground
-          width="100%"
-          height="100%"
-          preserveAspectRatio="xMinYMin slice"
-        ></WelcomeBackground>
+      <View style={homeStackStyles.styles.screenWrapper}>
+        <Text style={homeStackStyles.styles.headerText}>Explore</Text>
       </View>
-
-      <View style={styles.welcomeWrapper}>
-        <Text style={styles.appNameText}>LoopIt</Text>
-      </View>
-
-      <View style={styles.authWrapper}>
-        <CustomButton
-          text='Login'
-          onPress={goToLogin}
-          gradient={authButton.loginGradient}
-          textStyle={authButton.styles.buttonText}
-          buttonStyle={authButton.styles.button}
-        />
-        <CustomButton
-          text='Register'
-          onPress={goToRegister}
-          gradient={authButton.registerGradient}
-          textStyle={authButton.styles.buttonText}
-          buttonStyle={authButton.styles.button}
-        />
-      </View>
-
-    </View>
+    </Background>
   )
 }

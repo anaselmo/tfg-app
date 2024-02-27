@@ -1,15 +1,33 @@
-import { View, Text } from 'react-native'
 import React from 'react'
-import { SavedIcon } from '@components/tab-bar-icons.component'
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { StatusBar } from 'expo-status-bar'
+import { Text, View } from 'react-native'
+import * as homeStackStyles from '@styles/home-stack-screen.style'
+import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types'
+import Background from '@components/background.component'
 
-const SavedScreen = (): JSX.Element => {
-  return (
-    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-      <Text>Saved Screen</Text>
-      <SavedIcon.focused />
-      <SavedIcon.unfocused />
-    </View>
-  )
+interface HomeStackParamList {
+  ExploreScreen: undefined
+  CreateRouteScreen: undefined
+  SavedScreen: undefined
+  MyProfileScreen: undefined
+};
+
+interface ExploreScreenProps {
+  navigation: WelcomeScreenNavigationProp
 }
 
-export default SavedScreen
+export type WelcomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'ExploreScreen'>
+
+export default function ExploreScreen ({ navigation }: ExploreScreenProps): JSX.Element {
+  return (
+    <Background
+      gradient={homeStackStyles.backgroundGradient}
+    >
+      <StatusBar style='light' />
+      <View style={homeStackStyles.styles.screenWrapper}>
+        <Text style={homeStackStyles.styles.headerText}>Saved</Text>
+      </View>
+    </Background>
+  )
+}
