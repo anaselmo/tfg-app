@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import * as SplashScreen from 'expo-splash-screen'
 import WelcomeNavigator from './src/routes/welcome-stack'
+import HomeNavigator from './src/routes/home-stack'
 import { useFonts } from 'expo-font'
 
 export default function App (): JSX.Element | undefined {
@@ -20,7 +21,11 @@ export default function App (): JSX.Element | undefined {
     void SplashScreen.hideAsync()
   }
 
+  const userIsLoggedIn: boolean = true
+
   return (
-    <WelcomeNavigator />
+    userIsLoggedIn
+      ? <HomeNavigator />
+      : <WelcomeNavigator />
   )
 }
