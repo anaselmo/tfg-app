@@ -9,6 +9,7 @@ interface CustomButtonProps {
   gradient?: LinearGradientProps
   buttonStyle?: StyleProp<ViewStyle>
   textStyle?: StyleProp<TextStyle>
+  disabled?: boolean
 }
 
 const defaultValues: CustomButtonProps = {
@@ -16,7 +17,8 @@ const defaultValues: CustomButtonProps = {
   onPress: () => { Alert.alert('Button pressed') },
   gradient: { colors: ['transparent', 'transparent'] },
   buttonStyle: { flex: 1 },
-  textStyle: { color: 'black', flex: 1 }
+  textStyle: { color: 'black', flex: 1 },
+  disabled: false
 }
 
 const CustomButton: React.FC<CustomButtonProps> = ({
@@ -24,10 +26,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
   onPress = defaultValues.onPress!,
   gradient = defaultValues.gradient!,
   buttonStyle = defaultValues.buttonStyle!,
-  textStyle = defaultValues.textStyle!
+  textStyle = defaultValues.textStyle!,
+  disabled = defaultValues.disabled!
 }: CustomButtonProps) => {
   return (
-    <TouchableOpacity onPress={onPress}>
+    <TouchableOpacity onPress={onPress} disabled={disabled}>
       <LinearGradient
         colors={gradient.colors}
         start={gradient.start}
