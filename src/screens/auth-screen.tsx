@@ -40,7 +40,7 @@ export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Elemen
       await new Promise(resolve => setTimeout(resolve, 2000))
       console.log('data:', data)
       Alert.alert('data', JSON.stringify(data))
-      // signInBrute()
+      signInBrute()
       setLoading(false)
     } catch (err) {
       console.error('Error:', err)
