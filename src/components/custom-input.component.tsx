@@ -29,6 +29,10 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   const [error, setError] = useState(false)
   const animatedLabel = useRef(new Animated.Value(hasText || isFocused ? 1 : 0)).current
 
+  useEffect(() => {
+    handleBlur() // Reset the label position and size on initial render
+  }, [])
+
   const handleFocus = (): void => {
     setIsFocused(true)
     Animated.timing(animatedLabel, {
@@ -49,10 +53,6 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
       useNativeDriver: false
     }).start()
   }
-
-  useEffect(() => {
-    handleBlur() // Reset the label position and size on initial render
-  }, [])
 
   const labelStyle = {
     position: 'absolute',
@@ -77,19 +77,24 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
         control={control}
         rules={rules}
         render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
-          setError(error !== undefined)
+          useEffect(() => {
+            setHasText(value !== '')
+            setError(error !== undefined)
+          }, [value, error])
           return <>
             <View style={{ paddingVertical: 5 }}>
               <View
                 style={{
                   ...style,
-                  ...(isFocused ? { borderWidth: 2, borderColor: focusColor } : {}),
-                  ...(error !== undefined ? { borderWidth: 2, borderColor: errorColor } : {})
+                  borderWidth: 2,
+                  borderColor: '#F0F0F0',
+                  ...(isFocused ? { borderColor: focusColor } : {}),
+                  ...(error !== undefined ? { borderColor: errorColor } : {})
                 }}
               >
                 <Animated.Text style={labelStyle as Animated.WithAnimatedObject<TextStyle>}>{label}</Animated.Text>
                 <TextInput
-                  onChangeText={(text) => { setHasText(text !== ''); onChange(text) }}
+                  onChangeText={onChange}
                   onFocus={handleFocus}
                   onBlur={handleBlur}
                   value={value}
