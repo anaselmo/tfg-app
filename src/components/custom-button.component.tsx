@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import { Text, TouchableOpacity, View, type StyleProp, type ViewStyle, Alert, type TextStyle } from 'react-native'
+import { Text, TouchableOpacity, type StyleProp, type ViewStyle, Alert, type TextStyle, ActivityIndicator } from 'react-native'
 import { LinearGradient, type LinearGradientProps } from 'expo-linear-gradient'
 
 interface CustomButtonProps {
@@ -37,7 +37,10 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         end={gradient.end}
         style={buttonStyle}
       >
-        <Text style={textStyle}>{text}</Text>
+        {disabled
+          ? <ActivityIndicator color="black" size="large" />
+          : <Text style={textStyle}>{text}</Text>
+        }
       </LinearGradient>
     </TouchableOpacity>
   )
