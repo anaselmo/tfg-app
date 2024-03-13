@@ -1,5 +1,9 @@
+/* eslint-disable @typescript-eslint/prefer-nullish-coalescing */
 import { create } from 'zustand'
 import { AuthService } from '@lib/auth-service'
+import * as SecureStore from 'expo-secure-store'
+
+export const TOKEN_KEY = 'token'
 
 const auth = new AuthService()
 
@@ -13,12 +17,12 @@ interface AuthStore {
   loading: boolean
   error: string | null
   signIn: (credentials: ILoginFormInput) => Promise<void>
-  signOut: () => void
-  signInBrute: () => void
+  signOut: () => Promise<void>
+  signInBrute: () => Promise<void>
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  token: null,
+  token: SecureStore.getItem(TOKEN_KEY),
   loading: false,
   error: null,
   signIn: async (credentials: ILoginFormInput) => {
@@ -29,6 +33,7 @@ export const useAuthStore = create<AuthStore>((set) => ({
 
       if (response !== null) {
         set({ token: response })
+        await SecureStore.setItemAsync(TOKEN_KEY, response)
       }
     } catch (error) {
       set({ error: (error as Error).message })
@@ -36,10 +41,20 @@ export const useAuthStore = create<AuthStore>((set) => ({
       set({ loading: false })
     }
   },
-  signOut: () => {
+  signOut: async () => {
+    try {
+      await SecureStore.deleteItemAsync(TOKEN_KEY)
+    } catch (error) {
+      console.log('Error deleting token', error)
+    }
     set({ token: null })
   },
-  signInBrute: () => {
+  signInBrute: async () => {
     set({ token: 'not null' })
+    try {
+      await SecureStore.setItemAsync(TOKEN_KEY, 'not null')
+    } catch (error) {
+      console.log('Error setting token', error)
+    }
   }
 }))

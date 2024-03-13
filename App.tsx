@@ -23,7 +23,8 @@ export default function App (): JSX.Element | undefined {
     void SplashScreen.hideAsync()
   }
 
-  const userIsLoggedIn = token !== null
+  const userIsLoggedIn = token != null
+  console.log('token:', token)
 
   return (
     userIsLoggedIn
