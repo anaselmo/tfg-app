@@ -3,7 +3,7 @@ import Constants from 'expo-constants'
 import { StyleSheet } from 'react-native'
 import * as authButton from './shared/auth-button.style'
 
-export const borderWidth = 1
+export const borderWidth = 0
 
 export const styles = StyleSheet.create({
   screenWrapper: {
@@ -173,6 +173,7 @@ export const styles = StyleSheet.create({
     borderWidth: borderWidth
   },
   textInput: {
+    paddingLeft: 10,
     backgroundColor: '#F0F0F0',
     borderRadius: 15,
     fontSize: 15,
@@ -181,7 +182,7 @@ export const styles = StyleSheet.create({
     justifyContent: 'center',
     marginTop: 10,
     marginBottom: 15,
-    height: authButton.styles.button.height
+    height: authButton.styles.button.height + 10
   }
 })
 
