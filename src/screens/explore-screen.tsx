@@ -1,32 +1,75 @@
-import React from 'react'
+/* eslint-disable @typescript-eslint/no-non-null-assertion */
+/* eslint-disable @typescript-eslint/no-misused-promises */
+/* eslint-disable @typescript-eslint/no-floating-promises */
+import React, { useState } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { StatusBar } from 'expo-status-bar'
-import { Text, View } from 'react-native'
+import { View } from 'react-native'
 import * as homeStackStyles from '@styles/home-stack-screen.style'
 import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types'
 import Background from '@components/background.component'
+import CustomMapView from '@/components/custom-map-view'
+import CustomButton from '@/components/custom-button.component'
+import * as authButton from '@/styles/shared/auth-button.style'
+import * as authScreen from '../styles/auth-screen.style'
+import { LatLng } from 'react-native-maps'
+// import MapViewDirections from 'react-native-maps-directions'
+// import { GOOGLE_API_KEY } from '@/lib/constants'
+// import dotenv from 'dotenv'
+// dotenv.config()
 
 interface HomeStackParamList {
   ExploreScreen: undefined
   CreateRouteScreen: undefined
   SavedScreen: undefined
   MyProfileScreen: undefined
-};
+}
 
 interface ExploreScreenProps {
   navigation: WelcomeScreenNavigationProp
 }
 
-export type WelcomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'ExploreScreen'>
+export type WelcomeScreenNavigationProp = StackNavigationProp<
+  HomeStackParamList,
+  'ExploreScreen'
+>
 
-export default function ExploreScreen ({ navigation }: ExploreScreenProps): JSX.Element {
+export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.Element {
+  const [roundTripParams, setRoundTripParams] = useState<{
+    distance: number
+    points?: number
+    seed?: number
+  }>()
   return (
-    <Background
-      gradient={homeStackStyles.backgroundGradient}
-    >
-      <StatusBar style='light' />
-      <View style={homeStackStyles.styles.screenWrapper}>
-        <Text style={homeStackStyles.styles.headerText}>Explore</Text>
+    <Background gradient={homeStackStyles.backgroundGradient}>
+      <StatusBar style="light" />
+      <View
+        style={{
+          ...homeStackStyles.styles.screenWrapper,
+          justifyContent: 'center',
+          alignItems: 'center'
+        }}
+      >
+        {/* <View style={authScreen.styles.authButtonWrapper}> */}
+        <CustomButton
+          buttonStyle={{
+            height: 50,
+            borderWidth: 1,
+            borderColor: 'black',
+            width: 300
+          }}
+          gradient={authButton.loginGradient}
+          textStyle={authButton.styles.buttonText}
+          text="Hello"
+          onPress={() => {
+            setRoundTripParams({ distance: 5000, seed: Math.random() * 5000 })
+          }}
+        ></CustomButton>
+        {/* </View> */}
+        <CustomMapView
+          style={{ width: '95%', borderRadius: 15, overflow: 'hidden' }}
+          roundTripParams={roundTripParams}
+        />
       </View>
     </Background>
   )
