@@ -1,6 +1,15 @@
 'use client'
 import React, { useState, type FC, useEffect, useRef } from 'react'
-import { Text, View, TextInput, type TextInputProps, Animated, Easing, type TextStyle, Pressable } from 'react-native'
+import {
+  Text,
+  View,
+  TextInput,
+  type TextInputProps,
+  Animated,
+  Easing,
+  type TextStyle,
+  Pressable
+} from 'react-native'
 import { Controller } from 'react-hook-form'
 import Ionicons from 'react-native-vector-icons/Ionicons'
 
@@ -80,16 +89,17 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   }
 
   return (
-      <Controller
-        name={name}
-        control={control}
-        rules={rules}
-        render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
-          useEffect(() => {
-            setHasText(value !== undefined && value !== '')
-            setError(error !== undefined)
-          }, [value, error])
-          return <>
+    <Controller
+      name={name}
+      control={control}
+      rules={rules}
+      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
+        useEffect(() => {
+          setHasText(value !== undefined && value !== '')
+          setError(error !== undefined)
+        }, [value, error])
+        return (
+          <>
             <View style={{ paddingVertical: 5 }}>
               <View
                 style={{
@@ -100,7 +110,11 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                   ...(error !== undefined ? { borderColor: errorColor } : {})
                 }}
               >
-                <Animated.Text style={labelStyle as Animated.WithAnimatedObject<TextStyle>}>{label}</Animated.Text>
+                <Animated.Text
+                  style={labelStyle as Animated.WithAnimatedObject<TextStyle>}
+                >
+                  {label}
+                </Animated.Text>
                 <TextInput
                   onChangeText={onChange}
                   onFocus={handleFocus}
@@ -108,34 +122,62 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                   value={value}
                   secureTextEntry={!passwordVisibility}
                   {...rest}
-                  style={{ position: 'absolute', width: '100%', height: '110%', borderWidth: 0, borderColor: 'black', bottom: -7, paddingLeft: 10 }}
+                  style={{
+                    position: 'absolute',
+                    width: '100%',
+                    height: '110%',
+                    borderWidth: 0,
+                    borderColor: 'black',
+                    bottom: -7,
+                    paddingLeft: 10
+                  }}
                 />
                 {secureTextEntry && (
-                    <Pressable
-                      onPress={onTogglePasswordVisibility}
-                      style={{ position: 'absolute', flex: 1, right: 0, marginRight: 10, padding: 10, borderWidth: 0 }}
-                    >
-                      <Ionicons
-                        name={passwordVisibility ? 'eye-off' : 'eye'}
-                        size={25}
-                        color={'#696969'}
-                      />
-                    </Pressable>
+                  <Pressable
+                    onPress={onTogglePasswordVisibility}
+                    style={{
+                      position: 'absolute',
+                      flex: 1,
+                      right: 0,
+                      marginRight: 10,
+                      padding: 10,
+                      borderWidth: 0
+                    }}
+                  >
+                    <Ionicons
+                      name={passwordVisibility ? 'eye-off' : 'eye'}
+                      size={25}
+                      color={'#696969'}
+                    />
+                  </Pressable>
                 )}
               </View>
-              {error !== undefined &&
-                <View style={{ flex: 1, flexDirection: 'row', position: 'absolute', bottom: -5, borderWidth: 0 }}>
-                  <Ionicons name='alert-circle-outline' size={20} color={errorColor} style={{ borderWidth: 0, paddingRight: 5 }}/>
+              {error !== undefined && (
+                <View
+                  style={{
+                    flex: 1,
+                    flexDirection: 'row',
+                    position: 'absolute',
+                    bottom: -5,
+                    borderWidth: 0
+                  }}
+                >
+                  <Ionicons
+                    name="alert-circle-outline"
+                    size={20}
+                    color={errorColor}
+                    style={{ borderWidth: 0, paddingRight: 5 }}
+                  />
                   <Text style={{ color: errorColor, borderWidth: 0 }}>
-                    { error.message ?? 'Invalid input'}
+                    {error.message ?? 'Invalid input'}
                   </Text>
                 </View>
-              }
+              )}
             </View>
           </>
-        }}
-      />
-
+        )
+      }}
+    />
   )
 }
 

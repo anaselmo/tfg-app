@@ -3,7 +3,7 @@ import axios from 'axios'
 import { type ILoginFormInput } from '@lib/store'
 
 export class AuthService {
-  private async loginUser ({ email, password }: ILoginFormInput): Promise<string | null> {
+  private async loginUser({ email, password }: ILoginFormInput): Promise<string | null> {
     try {
       const response = await axios.post('http://localhost:3001/api/tourists/auth/login', {
         email,
@@ -18,7 +18,7 @@ export class AuthService {
     }
   }
 
-  public async getUserToken (credentials: ILoginFormInput): Promise<string> {
+  public async getUserToken(credentials: ILoginFormInput): Promise<string> {
     const parsedCredentials = z
       .object({ email: z.string().email(), password: z.string().min(6) })
       .safeParse(credentials)

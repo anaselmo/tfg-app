@@ -21,7 +21,7 @@ const Background: React.FC<BackgroundProps> = ({
 }: BackgroundProps) => {
   return (
     <LinearGradient {...gradient} style={style}>
-        {children}
+      {children}
     </LinearGradient>
   )
 }

@@ -11,20 +11,21 @@ interface HomeStackParamList {
   CreateRouteScreen: undefined
   SavedScreen: undefined
   MyProfileScreen: undefined
-};
+}
 
 interface ExploreScreenProps {
   navigation: WelcomeScreenNavigationProp
 }
 
-export type WelcomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'ExploreScreen'>
+export type WelcomeScreenNavigationProp = StackNavigationProp<
+  HomeStackParamList,
+  'ExploreScreen'
+>
 
-export default function ExploreScreen ({ navigation }: ExploreScreenProps): JSX.Element {
+export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.Element {
   return (
-    <Background
-      gradient={homeStackStyles.backgroundGradient}
-    >
-      <StatusBar style='light' />
+    <Background gradient={homeStackStyles.backgroundGradient}>
+      <StatusBar style="light" />
       <View style={homeStackStyles.styles.screenWrapper}>
         <Text style={homeStackStyles.styles.headerText}>Saved</Text>
       </View>
