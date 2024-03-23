@@ -45,29 +45,39 @@ export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.E
       <StatusBar style="light" />
       <View
         style={{
-          ...homeStackStyles.styles.screenWrapper,
-          justifyContent: 'center',
-          alignItems: 'center'
+          ...homeStackStyles.styles.screenWrapper
         }}
       >
         {/* <View style={authScreen.styles.authButtonWrapper}> */}
         <CustomButton
           buttonStyle={{
-            height: 50,
-            borderWidth: 1,
+            height: 40,
             borderColor: 'black',
-            width: 300
+            width: '70%',
+            margin: 10,
+            alignSelf: 'center',
+            borderRadius: 15,
+            alignItems: 'center',
+            justifyContent: 'center' // Add this line
           }}
           gradient={authButton.loginGradient}
-          textStyle={authButton.styles.buttonText}
-          text="Hello"
+          textStyle={{
+            ...authButton.styles.buttonText
+          }}
+          text="Create Route"
           onPress={() => {
             setRoundTripParams({ distance: 5000, seed: Math.random() * 5000 })
           }}
         ></CustomButton>
         {/* </View> */}
         <CustomMapView
-          style={{ width: '95%', borderRadius: 15, overflow: 'hidden' }}
+          style={{
+            width: '95%',
+            borderRadius: 15,
+            overflow: 'hidden',
+            flex: 1,
+            alignSelf: 'center'
+          }}
           roundTripParams={roundTripParams}
         />
       </View>
