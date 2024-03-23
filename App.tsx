@@ -5,14 +5,14 @@ import HomeNavigator from './src/routes/home-stack'
 import { useFonts } from 'expo-font'
 import { useAuthStore } from '@lib/store'
 
-export default function App (): JSX.Element | undefined {
+export default function App(): JSX.Element | undefined {
   const { token } = useAuthStore()
   const [fontsLoaded] = useFonts({
     'Inter-Bold': require('./assets/fonts/Inter-Bold.ttf'),
     'Inter-Regular': require('./assets/fonts/Inter-Regular.ttf')
   })
   useEffect(() => {
-    async function prepare (): Promise<void> {
+    async function prepare(): Promise<void> {
       await SplashScreen.preventAutoHideAsync()
     }
     void prepare()
@@ -26,9 +26,5 @@ export default function App (): JSX.Element | undefined {
   const userIsLoggedIn = token != null
   console.log('token:', token)
 
-  return (
-    userIsLoggedIn
-      ? <HomeNavigator />
-      : <WelcomeNavigator />
-  )
+  return userIsLoggedIn ? <HomeNavigator /> : <WelcomeNavigator />
 }

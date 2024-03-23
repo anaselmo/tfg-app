@@ -1,6 +1,14 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 import React from 'react'
-import { Text, TouchableOpacity, type StyleProp, type ViewStyle, Alert, type TextStyle, ActivityIndicator } from 'react-native'
+import {
+  Text,
+  TouchableOpacity,
+  type StyleProp,
+  type ViewStyle,
+  Alert,
+  type TextStyle,
+  ActivityIndicator
+} from 'react-native'
 import { LinearGradient, type LinearGradientProps } from 'expo-linear-gradient'
 
 interface CustomButtonProps {
@@ -14,7 +22,9 @@ interface CustomButtonProps {
 
 const defaultValues: CustomButtonProps = {
   text: 'Button',
-  onPress: () => { Alert.alert('Button pressed') },
+  onPress: () => {
+    Alert.alert('Button pressed')
+  },
   gradient: { colors: ['transparent', 'transparent'] },
   buttonStyle: { flex: 1 },
   textStyle: { color: 'black', flex: 1 },
@@ -37,10 +47,11 @@ const CustomButton: React.FC<CustomButtonProps> = ({
         end={gradient.end}
         style={buttonStyle}
       >
-        {disabled
-          ? <ActivityIndicator color="black" size="large" />
-          : <Text style={textStyle}>{text}</Text>
-        }
+        {disabled ? (
+          <ActivityIndicator color="black" size="large" />
+        ) : (
+          <Text style={textStyle}>{text}</Text>
+        )}
       </LinearGradient>
     </TouchableOpacity>
   )

@@ -11,15 +11,18 @@ import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/
 interface WelcomeStackParamList {
   Welcome: undefined
   AuthScreen: undefined
-};
+}
 
 interface WelcomeScreenProps {
   navigation: WelcomeScreenNavigationProp
 }
 
-export type WelcomeScreenNavigationProp = StackNavigationProp<WelcomeStackParamList, 'Welcome'>
+export type WelcomeScreenNavigationProp = StackNavigationProp<
+  WelcomeStackParamList,
+  'Welcome'
+>
 
-export default function WelcomeScreen ({ navigation }: WelcomeScreenProps): JSX.Element {
+export default function WelcomeScreen({ navigation }: WelcomeScreenProps): JSX.Element {
   const goToRegister = (): void => {
     navigation.navigate('AuthScreen', { authMethod: 'register' })
   }
@@ -30,7 +33,7 @@ export default function WelcomeScreen ({ navigation }: WelcomeScreenProps): JSX.
 
   return (
     <View style={styles.screenWrapper}>
-      <StatusBar style='light' />
+      <StatusBar style="light" />
 
       <View style={styles.backgroundWrapper}>
         <WelcomeBackground
@@ -46,21 +49,20 @@ export default function WelcomeScreen ({ navigation }: WelcomeScreenProps): JSX.
 
       <View style={styles.authWrapper}>
         <CustomButton
-          text='Login'
+          text="Login"
           onPress={goToLogin}
           gradient={authButton.loginGradient}
           textStyle={authButton.styles.buttonText}
           buttonStyle={authButton.styles.button}
         />
         <CustomButton
-          text='Register'
+          text="Register"
           onPress={goToRegister}
           gradient={authButton.registerGradient}
           textStyle={authButton.styles.buttonText}
           buttonStyle={authButton.styles.button}
         />
       </View>
-
     </View>
   )
 }

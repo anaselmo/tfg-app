@@ -21,7 +21,7 @@ interface AuthStore {
   signInBrute: () => Promise<void>
 }
 
-export const useAuthStore = create<AuthStore>((set) => ({
+export const useAuthStore = create<AuthStore>(set => ({
   token: SecureStore.getItem(TOKEN_KEY),
   loading: false,
   error: null,

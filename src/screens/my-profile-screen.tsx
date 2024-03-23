@@ -15,29 +15,37 @@ interface HomeStackParamList {
   CreateRouteScreen: undefined
   SavedScreen: undefined
   MyProfileScreen: undefined
-};
+}
 
 interface ExploreScreenProps {
   navigation: WelcomeScreenNavigationProp
 }
 
-export type WelcomeScreenNavigationProp = StackNavigationProp<HomeStackParamList, 'ExploreScreen'>
+export type WelcomeScreenNavigationProp = StackNavigationProp<
+  HomeStackParamList,
+  'ExploreScreen'
+>
 
-export default function ExploreScreen ({ navigation }: ExploreScreenProps): JSX.Element {
+export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.Element {
   const { signOut } = useAuthStore()
   return (
-    <Background
-      gradient={homeStackStyles.backgroundGradient}
-    >
-      <StatusBar style='light' />
+    <Background gradient={homeStackStyles.backgroundGradient}>
+      <StatusBar style="light" />
       <View style={homeStackStyles.styles.screenWrapper}>
         <Text style={homeStackStyles.styles.headerText}>My Profile</Text>
-        <View style={{ ...authScreen.styles.authButtonWrapper, alignSelf: 'center', position: 'absolute', bottom: 0 }}>
+        <View
+          style={{
+            ...authScreen.styles.authButtonWrapper,
+            alignSelf: 'center',
+            position: 'absolute',
+            bottom: 0
+          }}
+        >
           <CustomButton
             text="Log Out"
             textStyle={authButton.styles.buttonText}
             onPress={() => {
-              signOut().catch((error) => {
+              signOut().catch(error => {
                 console.error('Error during sign out:', error)
               })
             }}

@@ -21,12 +21,19 @@ interface FormData {
   password: string
 }
 
-export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Element {
+export default function AuthScreen({ navigation }: AuthScreenProps): JSX.Element {
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { handleSubmit, control, formState: { errors }, watch } = useForm<FormData>()
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+    watch
+  } = useForm<FormData>()
   const [secureTextEntry, setSecureTextEntry] = useState<boolean>(true)
   // TODO: try to find out why getParam is failing yet working 🤔
-  const [isRegisterScreen, setAuthMethod] = useState<boolean>(navigation.getParam('authMethod') === 'register')
+  const [isRegisterScreen, setAuthMethod] = useState<boolean>(
+    navigation.getParam('authMethod') === 'register'
+  )
   const [loading, setLoading] = useState(false)
   const { signInBrute } = useAuthStore()
 
@@ -72,122 +79,155 @@ export default function AuthScreen ({ navigation }: AuthScreenProps): JSX.Elemen
       }}
     >
       <KeyboardAwareScrollView contentContainerStyle={{ flexGrow: 1 }}>
-      <View style={authScreen.styles.screenWrapper}>
-        <View style={authScreen.styles.header}>
-          <View style={authScreen.styles.headerLeft}>
-            <CustomButton
-              text='&lt;'
-              onPress={goBack}
-              buttonStyle={authScreen.styles.backButton}
-              textStyle={authScreen.styles.headerGoBackText}
-            />
-          </View>
-          <View style={authScreen.styles.headerRight}>
-              <Text
-                style={authScreen.styles.headerAuthText}
-              >{(isRegisterScreen) ? headerText.registerMode : headerText.loginMode}</Text>
+        <View style={authScreen.styles.screenWrapper}>
+          <View style={authScreen.styles.header}>
+            <View style={authScreen.styles.headerLeft}>
               <CustomButton
-                text={(isRegisterScreen) ? headerButtonText.registerMode : headerButtonText.loginMode}
+                text="&lt;"
+                onPress={goBack}
+                buttonStyle={authScreen.styles.backButton}
+                textStyle={authScreen.styles.headerGoBackText}
+              />
+            </View>
+            <View style={authScreen.styles.headerRight}>
+              <Text style={authScreen.styles.headerAuthText}>
+                {isRegisterScreen ? headerText.registerMode : headerText.loginMode}
+              </Text>
+              <CustomButton
+                text={
+                  isRegisterScreen
+                    ? headerButtonText.registerMode
+                    : headerButtonText.loginMode
+                }
                 onPress={toggleAuthMethod}
                 buttonStyle={authScreen.styles.goToButton}
                 textStyle={authScreen.styles.headerButtonText}
               />
-          </View>
-        </View>
-
-        <View style={authScreen.styles.center}>
-          <Text style={authScreen.styles.centerText}>
-            {(isRegisterScreen) ? centerText.registerMode : centerText.loginMode}
-          </Text>
-        </View>
-
-        <View style={authScreen.styles.footer}>
-          <Background style={authScreen.styles.backCard}
-            gradient={authScreen.backCardGradient}
-          />
-
-          <Background style={authScreen.styles.frontCard}
-            gradient={authScreen.frontCardGradient}
-          >
-            <View style={authScreen.styles.cardTextWrapper}>
-              <Text style={authScreen.styles.cardTitle}>
-                {(isRegisterScreen) ? cardTitle.registerMode : cardTitle.loginMode}
-              </Text>
-              <Text style={authScreen.styles.cardText}>
-                {(isRegisterScreen) ? cardText.registerMode : cardText.loginMode}
-              </Text>
             </View>
-            <View style={authScreen.styles.authWrapper}>
-              {isRegisterScreen &&
+          </View>
+
+          <View style={authScreen.styles.center}>
+            <Text style={authScreen.styles.centerText}>
+              {isRegisterScreen ? centerText.registerMode : centerText.loginMode}
+            </Text>
+          </View>
+
+          <View style={authScreen.styles.footer}>
+            <Background
+              style={authScreen.styles.backCard}
+              gradient={authScreen.backCardGradient}
+            />
+
+            <Background
+              style={authScreen.styles.frontCard}
+              gradient={authScreen.frontCardGradient}
+            >
+              <View style={authScreen.styles.cardTextWrapper}>
+                <Text style={authScreen.styles.cardTitle}>
+                  {isRegisterScreen ? cardTitle.registerMode : cardTitle.loginMode}
+                </Text>
+                <Text style={authScreen.styles.cardText}>
+                  {isRegisterScreen ? cardText.registerMode : cardText.loginMode}
+                </Text>
+              </View>
+              <View style={authScreen.styles.authWrapper}>
+                {isRegisterScreen && (
+                  <CustomTextInput
+                    name="username"
+                    label="Username"
+                    control={control}
+                    rules={{
+                      required: 'Username is required',
+                      minLength: {
+                        value: 8,
+                        message: 'Username must be at least 8 characters long'
+                      },
+                      maxLength: {
+                        value: 24,
+                        message: 'Username must be at most 24 characters long'
+                      }
+                    }}
+                    style={authScreen.styles.textInput}
+                  />
+                )}
                 <CustomTextInput
-                  name='username'
-                  label='Username'
+                  name="e-mail"
+                  label="E-mail"
                   control={control}
                   rules={{
-                    required: 'Username is required',
-                    minLength: { value: 8, message: 'Username must be at least 8 characters long' },
-                    maxLength: { value: 24, message: 'Username must be at most 24 characters long' }
+                    required: 'E-mail is required',
+                    minLength: {
+                      value: 8,
+                      message: 'E-mail must be at least 8 characters long'
+                    },
+                    pattern: { value: EMAIL_REGEX, message: 'Invalid E-mail' }
                   }}
+                  keyboardType="email-address"
                   style={authScreen.styles.textInput}
                 />
-              }
-              <CustomTextInput
-                name='e-mail'
-                label='E-mail'
-                control={control}
-                rules={{
-                  required: 'E-mail is required',
-                  minLength: { value: 8, message: 'E-mail must be at least 8 characters long' },
-                  pattern: { value: EMAIL_REGEX, message: 'Invalid E-mail' }
-                }}
-                keyboardType="email-address"
-                style={authScreen.styles.textInput}
-              />
-              <CustomTextInput
-                name='password'
-                label='Password'
-                control={control}
-                rules={{
-                  required: 'Password is required',
-                  minLength: { value: 8, message: 'Password must be at least 8 characters long' },
-                  maxLength: { value: 64, message: 'Password must be at most 64 characters long' }
-                }}
-                secureTextEntry
-                style={authScreen.styles.textInput}
-              />
-              {isRegisterScreen &&
                 <CustomTextInput
-                  name='confirm-password'
-                  label='Confirm password'
+                  name="password"
+                  label="Password"
                   control={control}
                   rules={{
                     required: 'Password is required',
-                    minLength: { value: 8, message: 'Password must be at least 8 characters long' },
-                    maxLength: { value: 64, message: 'Password must be at most 64 characters long' },
-                    validate: (value: string) => value === watch('password') || 'The passwords do not match'
+                    minLength: {
+                      value: 8,
+                      message: 'Password must be at least 8 characters long'
+                    },
+                    maxLength: {
+                      value: 64,
+                      message: 'Password must be at most 64 characters long'
+                    }
                   }}
                   secureTextEntry
                   style={authScreen.styles.textInput}
                 />
-              }
-            </View>
-            <View style={authScreen.styles.authButtonWrapper}>
-              <CustomButton
-                text={(isRegisterScreen) ? authButtonText.registerMode : authButtonText.loginMode}
-                textStyle={authButton.styles.buttonText}
-                onPress={handleSubmit(onSubmit)}
-                gradient={(isRegisterScreen)
-                  ? authButton.registerGradient
-                  : authButton.loginGradient
-                }
-                disabled={loading}
-                buttonStyle={authButton.styles.button}
-              />
-            </View>
-            {/* </Form> */}
-          </Background>
+                {isRegisterScreen && (
+                  <CustomTextInput
+                    name="confirm-password"
+                    label="Confirm password"
+                    control={control}
+                    rules={{
+                      required: 'Password is required',
+                      minLength: {
+                        value: 8,
+                        message: 'Password must be at least 8 characters long'
+                      },
+                      maxLength: {
+                        value: 64,
+                        message: 'Password must be at most 64 characters long'
+                      },
+                      validate: (value: string) =>
+                        value === watch('password') || 'The passwords do not match'
+                    }}
+                    secureTextEntry
+                    style={authScreen.styles.textInput}
+                  />
+                )}
+              </View>
+              <View style={authScreen.styles.authButtonWrapper}>
+                <CustomButton
+                  text={
+                    isRegisterScreen
+                      ? authButtonText.registerMode
+                      : authButtonText.loginMode
+                  }
+                  textStyle={authButton.styles.buttonText}
+                  onPress={handleSubmit(onSubmit)}
+                  gradient={
+                    isRegisterScreen
+                      ? authButton.registerGradient
+                      : authButton.loginGradient
+                  }
+                  disabled={loading}
+                  buttonStyle={authButton.styles.button}
+                />
+              </View>
+              {/* </Form> */}
+            </Background>
+          </View>
         </View>
-      </View>
       </KeyboardAwareScrollView>
     </Background>
   )

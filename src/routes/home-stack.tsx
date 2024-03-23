@@ -14,11 +14,11 @@ const createRouteName = 'Create Route'
 const savedName = 'Saved'
 const myProfileName = 'My Profile'
 
-export default function HomeStack (): JSX.Element {
+export default function HomeStack(): JSX.Element {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        initialRouteName='ExploreScreen'
+        initialRouteName="ExploreScreen"
         screenOptions={({ route }) => ({
           tabBarIcon: ({ focused, color, size }) => {
             let iconName
@@ -50,10 +50,26 @@ export default function HomeStack (): JSX.Element {
           tabBarHideOnKeyboard: true
         })}
       >
-        <Tab.Screen name={exploreName} component={ExploreScreen} options = {{ headerShown: false }}/>
-        <Tab.Screen name={createRouteName} component={CreateRouteScreen} options = {{ headerShown: false }}/>
-        <Tab.Screen name={savedName} component={SavedScreen} options = {{ headerShown: false, tabBarBadge: undefined }}/>
-        <Tab.Screen name={myProfileName} component={MyProfileScreen} options = {{ headerShown: false }}/>
+        <Tab.Screen
+          name={exploreName}
+          component={ExploreScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name={createRouteName}
+          component={CreateRouteScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name={savedName}
+          component={SavedScreen}
+          options={{ headerShown: false, tabBarBadge: undefined }}
+        />
+        <Tab.Screen
+          name={myProfileName}
+          component={MyProfileScreen}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   )
