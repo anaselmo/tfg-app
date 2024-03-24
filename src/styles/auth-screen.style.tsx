@@ -181,7 +181,7 @@ export const styles = StyleSheet.create({
     color: '#696969',
     justifyContent: 'center',
     marginTop: 10,
-    marginBottom: 15,
+    // marginBottom: 15,
     height: authButton.styles.button.height + 10
   }
 })
