@@ -4,7 +4,6 @@ import {
   Text,
   View,
   TextInput,
-  type TextInputProps,
   Animated,
   Easing,
   type TextStyle,
@@ -43,45 +42,48 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   const [passwordVisibility, setPasswordVisibility] = useState(!secureTextEntry)
   const animatedMargin = useRef(new Animated.Value(error ? 15 : 0)).current
   const [isErrorVisible, setIsErrorVisible] = useState(false)
+  const textInputRef = useRef<TextInput>(null)
+  const [errorMessage, setErrorMessage] = useState<string>('')
+  const [errorLines, setErrorLines] = useState(0)
 
   useEffect(() => {
     handleBlur() // Reset the label position and size on initial render
   }, [])
 
   useEffect(() => {
+    console.log('errorLines', errorLines)
+    console.log('errorMessage', errorMessage)
     Animated.timing(animatedMargin, {
-      toValue: error ? 15 : 0,
-      duration: 200, // Duración en milisegundos
+      toValue: error ? (errorMessage.length > 0 ? 15 * errorLines : 0) : 0,
+      duration: 150, // Duración en milisegundos
       useNativeDriver: false // Ahora puedes usar el controlador nativo
     }).start(() => {
       setIsErrorVisible(error)
     })
-  }, [error])
+  }, [error, errorLines, errorMessage])
 
   const onTogglePasswordVisibility = (): void => {
     console.log('passwordVisibility', passwordVisibility)
     setPasswordVisibility(!passwordVisibility)
   }
 
-  const handleFocus = (): void => {
-    setIsFocused(true)
+  const handleFocusChange = (focused: boolean): void => {
+    setIsFocused(focused)
+    const toValue = focused ? 1 : hasText ? 1 : 0
     Animated.timing(animatedLabel, {
-      toValue: 1,
+      toValue,
       duration: 150,
       easing: Easing.linear,
       useNativeDriver: false
     }).start()
   }
 
+  const handleFocus = (): void => {
+    handleFocusChange(true)
+  }
+
   const handleBlur = (): void => {
-    setIsFocused(false)
-    if (hasText) return
-    Animated.timing(animatedLabel, {
-      toValue: 0,
-      duration: 150,
-      easing: Easing.linear,
-      useNativeDriver: false
-    }).start()
+    handleFocusChange(false)
   }
 
   const labelStyle = {
@@ -106,65 +108,79 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
       name={name}
       control={control}
       rules={rules}
-      render={({ field: { onChange, onBlur, value }, fieldState: { error } }) => {
+      render={({
+        field: { onChange, onBlur, value },
+        fieldState: { error: errorState }
+      }) => {
         useEffect(() => {
           setHasText(value !== undefined && value !== '')
-          setError(error !== undefined)
-        }, [value, error])
+          setError(errorState !== undefined)
+          if (errorState?.message !== undefined) {
+            setErrorMessage(errorState.message)
+            console.log('errorState.message', errorState.message)
+          }
+        }, [value, errorState])
         return (
           <>
             <View style={{ paddingVertical: 5 }}>
-              <Animated.View
-                style={{
-                  ...style,
-                  borderWidth: 2,
-                  borderColor: '#F0F0F0',
-                  ...(isFocused ? { borderColor: focusColor } : {}),
-                  ...(error !== undefined ? { borderColor: errorColor } : {}),
-                  marginBottom: animatedMargin
+              <Pressable
+                onPress={() => {
+                  textInputRef.current?.focus()
                 }}
               >
-                <Animated.Text
-                  style={labelStyle as Animated.WithAnimatedObject<TextStyle>}
-                >
-                  {label}
-                </Animated.Text>
-                <TextInput
-                  onChangeText={onChange}
-                  onFocus={handleFocus}
-                  onBlur={handleBlur}
-                  value={value}
-                  secureTextEntry={!passwordVisibility}
-                  {...rest}
+                <Animated.View
                   style={{
-                    width: '100%',
-                    borderWidth: 0,
-                    borderColor: 'black',
-                    paddingLeft: 10,
-                    marginTop: 15
+                    ...style,
+                    borderWidth: 2,
+                    borderColor: '#F0F0F0',
+                    ...(isFocused ? { borderColor: focusColor } : {}),
+                    ...(errorState !== undefined ? { borderColor: errorColor } : {}),
+                    marginBottom: animatedMargin
                   }}
-                />
-                {secureTextEntry && (
-                  <Pressable
-                    onPress={onTogglePasswordVisibility}
-                    style={{
-                      position: 'absolute',
-                      flex: 1,
-                      right: 0,
-                      marginRight: 10,
-                      padding: 10,
-                      borderWidth: 0
-                    }}
+                >
+                  <Animated.Text
+                    style={labelStyle as Animated.WithAnimatedObject<TextStyle>}
                   >
-                    <Ionicons
-                      name={passwordVisibility ? 'eye-off' : 'eye'}
-                      size={25}
-                      color={'#696969'}
-                    />
-                  </Pressable>
-                )}
-              </Animated.View>
-              {isErrorVisible && error !== undefined && (
+                    {label}
+                  </Animated.Text>
+                  <TextInput
+                    ref={textInputRef}
+                    onChangeText={onChange}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
+                    value={value}
+                    secureTextEntry={!passwordVisibility}
+                    {...rest}
+                    style={{
+                      width: '100%',
+                      borderWidth: 0,
+                      borderColor: 'black',
+                      paddingLeft: 10,
+                      marginTop: 15
+                    }}
+                  />
+                  {secureTextEntry && (
+                    <Pressable
+                      onPress={onTogglePasswordVisibility}
+                      style={{
+                        position: 'absolute',
+                        flex: 1,
+                        right: 0,
+                        marginRight: 10,
+                        padding: 10,
+                        borderWidth: 0
+                      }}
+                    >
+                      <Ionicons
+                        name={passwordVisibility ? 'eye-off' : 'eye'}
+                        size={25}
+                        color={'#696969'}
+                      />
+                    </Pressable>
+                  )}
+                </Animated.View>
+              </Pressable>
+              {isErrorVisible && errorState !== undefined && (
                 <View
                   style={{
                     flex: 1,
@@ -180,8 +196,14 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                     color={errorColor}
                     style={{ borderWidth: 0, paddingRight: 5 }}
                   />
-                  <Text style={{ color: errorColor, borderWidth: 0 }}>
-                    {error.message ?? 'Invalid input'}
+                  <Text
+                    onTextLayout={({ nativeEvent: { lines } }) => {
+                      console.log('lines', lines.length)
+                      setErrorLines(lines.length)
+                    }}
+                    style={{ color: errorColor, borderWidth: 0 }}
+                  >
+                    {errorState.message ?? 'Invalid input'}
                   </Text>
                 </View>
               )}
