@@ -75,12 +75,8 @@ export default function CustomMapView(props: CustomMapViewProps): JSX.Element {
 
   useEffect(() => {
     if (origin == null) return
-    getRoundTrip(
-      origin,
-      props.roundTripParams?.distance,
-      props.roundTripParams?.points,
-      props.roundTripParams?.seed
-    ).then(response => {
+    if (props.roundTripParams == null) return
+    getRoundTrip(origin, props.roundTripParams).then(response => {
       setRouteCoordinates(response)
     })
   }, [props.roundTripParams])

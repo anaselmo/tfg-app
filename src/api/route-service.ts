@@ -10,11 +10,15 @@ const headers = {
   Authorization: OPEN_ROUTE_SERVICE_KEY
 }
 
+export interface RoundTripParams {
+  distance: number
+  points?: number
+  seed?: number
+}
+
 export const getRoundTrip = async (
   { latitude, longitude }: LatLng,
-  length?: number,
-  points?: number,
-  seed?: number
+  { distance: length, points, seed }: RoundTripParams
 ): Promise<LatLng[]> => {
   const body = {
     coordinates: [[longitude, latitude]],
