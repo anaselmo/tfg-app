@@ -1,10 +1,9 @@
 /* eslint-disable @typescript-eslint/no-non-null-assertion */
 /* eslint-disable @typescript-eslint/no-misused-promises */
 /* eslint-disable @typescript-eslint/no-floating-promises */
-import React, { ComponentProps, useEffect } from 'react'
+import React, { type ComponentProps, useEffect } from 'react'
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import { TouchableOpacity, View } from 'react-native'
-import { type StackNavigationProp } from 'react-navigation-stack/lib/typescript/src/vendor/types'
 import MapView, { type LatLng, Marker, Polyline, type Region } from 'react-native-maps'
 import { getUserLocation } from '@/lib/location'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -76,10 +75,15 @@ export default function CustomMapView(props: CustomMapViewProps): JSX.Element {
 
   useEffect(() => {
     if (origin == null) return
-    getRoundTrip(origin, props.roundTripParams?.distance, 4).then(response => {
+    getRoundTrip(
+      origin,
+      props.roundTripParams?.distance,
+      props.roundTripParams?.points,
+      props.roundTripParams?.seed
+    ).then(response => {
       setRouteCoordinates(response)
     })
-  }, [props.roundTripParams?.distance, props.roundTripParams?.seed])
+  }, [props.roundTripParams])
 
   useEffect(() => {
     mapRef.current?.fitToCoordinates(routeCoordinates)

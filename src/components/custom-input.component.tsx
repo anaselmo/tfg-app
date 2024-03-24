@@ -8,7 +8,8 @@ import {
   Easing,
   type TextStyle,
   Pressable,
-  type ViewProps
+  type ViewProps,
+  type TextInputProps
 } from 'react-native'
 import { Controller } from 'react-hook-form'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -22,7 +23,9 @@ type CustomTextInputProps = {
   errorColor?: string
   style?: any
   secureTextEntry?: boolean
-} & ViewProps
+  keyboardType?: TextInputProps['keyboardType']
+} & ViewProps &
+  TextInputProps
 
 const CustomTextInput: FC<CustomTextInputProps> = ({
   control,
@@ -33,6 +36,7 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   label,
   style,
   secureTextEntry = false,
+  keyboardType = 'default',
   ...rest
 }) => {
   const [isFocused, setIsFocused] = useState(false)
@@ -54,11 +58,11 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
     console.log('errorLines', errorLines)
     console.log('errorMessage', errorMessage)
     Animated.timing(animatedMargin, {
-      toValue: error ? (errorMessage.length > 0 ? 15 * errorLines : 0) : 0,
+      toValue: error && errorMessage.length > 0 ? 15 * errorLines : 0,
       duration: 150, // Duración en milisegundos
       useNativeDriver: false // Ahora puedes usar el controlador nativo
     }).start(() => {
-      setIsErrorVisible(error)
+      setIsErrorVisible(error && errorMessage.length > 0)
     })
   }, [error, errorLines, errorMessage])
 
@@ -145,11 +149,26 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                   </Animated.Text>
                   <TextInput
                     ref={textInputRef}
-                    onChangeText={onChange}
+                    onChangeText={text => {
+                      if (keyboardType !== 'numeric') {
+                        onChange(text)
+                        return
+                      }
+                      // Reemplazar comas por puntos
+                      const normalizedText = text.replace(/,/g, '.')
+
+                      if (normalizedText === '' || normalizedText === '.') {
+                        onChange(normalizedText)
+                      } else if (!isNaN(Number(normalizedText))) {
+                        // Permitir la entrada si el texto es un número válido
+                        onChange(normalizedText)
+                      }
+                    }}
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                     value={value}
                     secureTextEntry={!passwordVisibility}
+                    keyboardType={keyboardType}
                     {...rest}
                     style={{
                       width: '100%',
