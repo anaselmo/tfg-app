@@ -86,7 +86,7 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
 
   const labelStyle = {
     position: 'absolute',
-    left: 10,
+    left: 20,
     top: animatedLabel.interpolate({
       inputRange: [0, 1],
       outputRange: [16, 5]
@@ -140,7 +140,8 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                     width: '100%',
                     borderWidth: 0,
                     borderColor: 'black',
-                    paddingLeft: 10
+                    paddingLeft: 10,
+                    marginTop: 15
                   }}
                 />
                 {secureTextEntry && (
