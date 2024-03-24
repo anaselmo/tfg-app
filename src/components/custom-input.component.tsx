@@ -8,7 +8,8 @@ import {
   Animated,
   Easing,
   type TextStyle,
-  Pressable
+  Pressable,
+  type ViewProps
 } from 'react-native'
 import { Controller } from 'react-hook-form'
 import Ionicons from 'react-native-vector-icons/Ionicons'
@@ -22,7 +23,7 @@ type CustomTextInputProps = {
   errorColor?: string
   style?: any
   secureTextEntry?: boolean
-} & TextInputProps
+} & ViewProps
 
 const CustomTextInput: FC<CustomTextInputProps> = ({
   control,
@@ -40,10 +41,22 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   const [error, setError] = useState(false)
   const animatedLabel = useRef(new Animated.Value(hasText || isFocused ? 1 : 0)).current
   const [passwordVisibility, setPasswordVisibility] = useState(!secureTextEntry)
+  const animatedMargin = useRef(new Animated.Value(error ? 15 : 0)).current
+  const [isErrorVisible, setIsErrorVisible] = useState(false)
 
   useEffect(() => {
     handleBlur() // Reset the label position and size on initial render
   }, [])
+
+  useEffect(() => {
+    Animated.timing(animatedMargin, {
+      toValue: error ? 15 : 0,
+      duration: 200, // Duración en milisegundos
+      useNativeDriver: false // Ahora puedes usar el controlador nativo
+    }).start(() => {
+      setIsErrorVisible(error)
+    })
+  }, [error])
 
   const onTogglePasswordVisibility = (): void => {
     console.log('passwordVisibility', passwordVisibility)
@@ -101,13 +114,14 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
         return (
           <>
             <View style={{ paddingVertical: 5 }}>
-              <View
+              <Animated.View
                 style={{
                   ...style,
                   borderWidth: 2,
                   borderColor: '#F0F0F0',
                   ...(isFocused ? { borderColor: focusColor } : {}),
-                  ...(error !== undefined ? { borderColor: errorColor } : {})
+                  ...(error !== undefined ? { borderColor: errorColor } : {}),
+                  marginBottom: animatedMargin
                 }}
               >
                 <Animated.Text
@@ -123,12 +137,9 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                   secureTextEntry={!passwordVisibility}
                   {...rest}
                   style={{
-                    position: 'absolute',
                     width: '100%',
-                    height: '110%',
                     borderWidth: 0,
                     borderColor: 'black',
-                    bottom: -7,
                     paddingLeft: 10
                   }}
                 />
@@ -151,8 +162,8 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                     />
                   </Pressable>
                 )}
-              </View>
-              {error !== undefined && (
+              </Animated.View>
+              {isErrorVisible && error !== undefined && (
                 <View
                   style={{
                     flex: 1,
