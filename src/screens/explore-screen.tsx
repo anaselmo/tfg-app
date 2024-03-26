@@ -67,7 +67,7 @@ export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.E
         >
           <View
             style={{
-              width: '80%',
+              width: '90%',
               alignSelf: 'center'
             }}
           >
@@ -92,59 +92,117 @@ export default function ExploreScreen({ navigation }: ExploreScreenProps): JSX.E
                 ...authScreen.styles.textInput
               }}
             />
-            <CustomTextInput
-              name="points"
-              label="Points"
-              control={control}
-              keyboardType="numeric"
-              errorColor="orange"
-              rules={{
-                required: 'Points are required',
-                pattern: {
-                  value: /^\d+$/, // Expresión regular que valida si es un número
-                  message: 'Points must be an integer'
-                },
-                maxLength: {
-                  value: 6,
-                  message: 'Points must be at most 10 characters long'
-                }
-              }}
-              style={{
-                ...authScreen.styles.textInput
-              }}
-            />
           </View>
-          <CustomButton
-            buttonStyle={{
-              height: 40,
-              borderColor: 'black',
-              width: '80%',
-              margin: 10,
-              alignSelf: 'center',
-              borderRadius: 15,
-              alignItems: 'center',
-              justifyContent: 'center'
-            }}
-            gradient={authButton.loginGradient}
-            textStyle={{
-              ...authButton.styles.buttonText
-            }}
-            text="Create Route"
-            onPress={handleSubmit(async data => {
-              setRoundTripParams({ ...data, seed: Math.floor(Math.random() * 1000) })
-            })}
-          ></CustomButton>
-          <CustomMapView
+          <View
             style={{
-              width: '100%',
-              borderTopEndRadius: 15,
-              borderTopStartRadius: 15,
-              overflow: 'hidden',
-              flex: 1,
-              alignSelf: 'center'
+              flexDirection: 'row',
+              alignContent: 'center',
+              marginHorizontal: '5%',
+              marginVertical: 12,
+              columnGap: 10
             }}
-            roundTripParams={roundTripParams}
-          />
+          >
+            <View
+              style={{
+                flex: 2,
+                justifyContent: 'flex-start',
+                alignContent: 'flex-start'
+              }}
+            >
+              {/* <CustomTextInput
+                name="points"
+                label="Points"
+                control={control}
+                keyboardType="numeric"
+                errorColor="orange"
+                rules={{
+                  required: 'Points are required',
+                  pattern: {
+                    value: /^\d+$/, // Expresión regular que valida si es un número
+                    message: 'Points must be an integer'
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: 'Points must be at most 10 characters long'
+                  }
+                }}
+                style={{
+                  ...authScreen.styles.textInput,
+                  borderRadius: 25,
+                  height: 45,
+                  marginTop: 0,
+                  margin: 0,
+                  padding: 0
+                }}
+              /> */}
+              <CustomTextInput
+                name="distance"
+                label="Distance (m)"
+                control={control}
+                keyboardType="numeric"
+                errorColor="orange"
+                rules={{
+                  required: 'Distance is required',
+                  pattern: {
+                    value: /^\d+(\.\d{1,2})?$/, // Expresión regular que valida si es un número
+                    message: 'Distance must be a number with max 2 decimals'
+                  },
+                  maxLength: {
+                    value: 6,
+                    message: 'Distance must be at most 10 characters long'
+                  }
+                }}
+                style={{
+                  ...authScreen.styles.textInput,
+                  borderRadius: 25,
+                  height: 45,
+                  marginTop: 0,
+                  margin: 0,
+                  padding: 0
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flex: 3,
+                justifyContent: 'flex-start'
+              }}
+            >
+              <CustomButton
+                buttonStyle={{
+                  height: 45,
+                  borderColor: 'black',
+                  width: '100%',
+                  alignSelf: 'center',
+                  borderRadius: 25,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  flex: 3
+                }}
+                gradient={authButton.loginGradient}
+                textStyle={{
+                  ...authButton.styles.buttonText
+                }}
+                text="Create Route"
+                onPress={handleSubmit(async data => {
+                  setRoundTripParams({ ...data })
+                })}
+              />
+            </View>
+          </View>
+          {roundTripParams && (
+            <CustomMapView
+              style={{
+                width: '100%',
+                borderTopEndRadius: 15,
+                borderTopStartRadius: 15,
+                overflow: 'hidden',
+                height: '100%',
+                alignSelf: 'center'
+              }}
+              roundTripParams={roundTripParams}
+            />
+          )}
         </View>
       </KeyboardAwareScrollView>
     </Background>

@@ -49,6 +49,8 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
   const textInputRef = useRef<TextInput>(null)
   const [errorMessage, setErrorMessage] = useState<string>('')
   const [errorLines, setErrorLines] = useState(0)
+  const [componentHeight, setComponentHeight] = useState(0)
+  const [componentWidth, setComponentWidth] = useState(0)
 
   useEffect(() => {
     handleBlur() // Reset the label position and size on initial render
@@ -95,7 +97,7 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
     left: 20,
     top: animatedLabel.interpolate({
       inputRange: [0, 1],
-      outputRange: [16, 5]
+      outputRange: [componentHeight / 4.3, componentHeight / 10]
     }),
     fontSize: animatedLabel.interpolate({
       inputRange: [0, 1],
@@ -126,7 +128,7 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
         }, [value, errorState])
         return (
           <>
-            <View style={{ paddingVertical: 5 }}>
+            <View>
               <Pressable
                 onPress={() => {
                   textInputRef.current?.focus()
@@ -140,6 +142,13 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                     ...(isFocused ? { borderColor: focusColor } : {}),
                     ...(errorState !== undefined ? { borderColor: errorColor } : {}),
                     marginBottom: animatedMargin
+                  }}
+                  onLayout={event => {
+                    const { height, width } = event.nativeEvent.layout
+                    console.log('height', height)
+                    console.log('width', width)
+                    setComponentHeight(height)
+                    setComponentWidth(width)
                   }}
                 >
                   <Animated.Text
@@ -171,11 +180,12 @@ const CustomTextInput: FC<CustomTextInputProps> = ({
                     keyboardType={keyboardType}
                     {...rest}
                     style={{
-                      width: '100%',
+                      flex: 1, // Cambio sugerido
                       borderWidth: 0,
                       borderColor: 'black',
                       paddingLeft: 10,
-                      marginTop: 15
+                      // marginTop: 15
+                      bottom: -7
                     }}
                   />
                   {secureTextEntry && (
